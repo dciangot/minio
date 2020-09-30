@@ -1,7 +1,5 @@
 FROM golang:1.14-alpine as builder
 
-COPY minio /minio
-
 ENV GOPATH /go
 ENV CGO_ENABLED 0
 ENV GO111MODULE on
