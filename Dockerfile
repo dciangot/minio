@@ -1,6 +1,6 @@
 FROM golang:1.14-alpine as builder
 
-LABEL maintainer="MinIO Inc <dev@min.io>"
+COPY minio /minio
 
 ENV GOPATH /go
 ENV CGO_ENABLED 0
