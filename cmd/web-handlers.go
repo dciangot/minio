@@ -20,7 +20,6 @@ import (
 	"context"
 	"encoding/json"
 	"encoding/xml"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -164,7 +163,8 @@ func (web *webAPIHandlers) MakeBucket(r *http.Request, args *MakeBucketArgs, rep
 		IsOwner:         owner,
 		Claims:          claims.Map(),
 	}) {
-		return toJSONError(ctx, errAccessDenied)
+		return toJSONError(ctx, fmt.Errorf(fmt.Sprintln(claims.AccessKey, claims.Map()), errAccessDenied))
+		//return toJSONError(ctx, errAccessDenied)
 	}
 
 	// Check if bucket is a reserved bucket name or invalid.
@@ -2106,7 +2106,7 @@ func (web *webAPIHandlers) LoginSTS(r *http.Request, args *LoginSTSArgs, reply *
 	defer xhttp.DrainBody(resp.Body)
 
 	if resp.StatusCode != http.StatusOK {
-		return toJSONError(ctx, errors.New(resp.Status))
+		return toJSONError(ctx, err)
 	}
 
 	a := AssumeRoleWithWebIdentityResponse{}

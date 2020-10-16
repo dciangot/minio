@@ -281,6 +281,7 @@ func checkRequestAuthType(ctx context.Context, r *http.Request, action policy.Ac
 // returns APIErrorCode if any to be replied to the client.
 // Additionally returns the accessKey used in the request, and if this request is by an admin.
 func checkRequestAuthTypeToAccessKey(ctx context.Context, r *http.Request, action policy.Action, bucketName, objectName string) (accessKey string, owner bool, s3Err APIErrorCode) {
+	logger.Info("CIAOOO %s", r.URL.Query)
 	var cred auth.Credentials
 	switch getRequestAuthType(r) {
 	case authTypeUnknown, authTypeStreamingSigned:
@@ -334,6 +335,16 @@ func checkRequestAuthTypeToAccessKey(ctx context.Context, r *http.Request, actio
 		r.Body = ioutil.NopCloser(bytes.NewReader(payload))
 	}
 
+	debugme := policy.Args{
+		AccountName:     cred.AccessKey,
+		Action:          action,
+		BucketName:      bucketName,
+		ConditionValues: getConditionValues(r, locationConstraint, "", nil),
+		IsOwner:         false,
+		ObjectName:      objectName,
+	}
+
+	logger.Info("CIAOOO authTypeSTS %s", debugme)
 	if cred.AccessKey == "" {
 		if globalPolicySys.IsAllowed(policy.Args{
 			AccountName:     cred.AccessKey,
