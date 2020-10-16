@@ -44,8 +44,8 @@ func (sys *PolicySys) Get(bucket string) (*policy.Policy, error) {
 func (sys *PolicySys) IsAllowed(args policy.Args) bool {
 	logger.Info("args.BucketName", args.BucketName)
 	p, err := sys.Get(args.BucketName)
-	logger.Info("err", err.Error())
 	if err == nil {
+		logger.Info("err", err.Error())
 		return p.IsAllowed(args)
 	}
 
