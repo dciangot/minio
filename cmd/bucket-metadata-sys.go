@@ -312,6 +312,7 @@ func (sys *BucketMetadataSys) GetSSEConfig(bucket string) (*bucketsse.BucketSSEC
 // GetPolicyConfig returns configured bucket policy
 // The returned object may not be modified.
 func (sys *BucketMetadataSys) GetPolicyConfig(bucket string) (*policy.Policy, error) {
+	logger.Info("globalIsGateway", globalIsGateway)
 	if globalIsGateway {
 		objAPI := newObjectLayerWithoutSafeModeFn()
 		if objAPI == nil {
