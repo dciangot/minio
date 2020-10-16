@@ -1807,6 +1807,7 @@ func (sys *IAMSys) IsAllowedSTS(args iampolicy.Args) bool {
 // IsAllowed - checks given policy args is allowed to continue the Rest API.
 func (sys *IAMSys) IsAllowed(args iampolicy.Args) bool {
 	// If opa is configured, use OPA always.
+	logger.Info("globalPolicyOPA", globalPolicyOPA)
 	if globalPolicyOPA != nil {
 		ok, err := globalPolicyOPA.IsAllowed(args)
 		if err != nil {
