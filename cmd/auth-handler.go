@@ -334,16 +334,12 @@ func checkRequestAuthTypeToAccessKey(ctx context.Context, r *http.Request, actio
 		r.Body = ioutil.NopCloser(bytes.NewReader(payload))
 	}
 
-	debugme := policy.Args{
-		AccountName:     cred.AccessKey,
-		Action:          action,
-		BucketName:      bucketName,
-		ConditionValues: getConditionValues(r, locationConstraint, "", nil),
-		IsOwner:         false,
-		ObjectName:      objectName,
-	}
+	logger.Info("authTypeSTS", cred.AccessKey)
+	logger.Info("authTypeSTS", action)
+	logger.Info("authTypeSTS", bucketName)
+	logger.Info("authTypeSTS", getConditionValues(r, locationConstraint, "", nil))
+	logger.Info("authTypeSTS", objectName)
 
-	logger.Info("authTypeSTS", debugme)
 	if cred.AccessKey == "" {
 		if globalPolicySys.IsAllowed(policy.Args{
 			AccountName:     cred.AccessKey,
