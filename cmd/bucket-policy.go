@@ -42,6 +42,7 @@ func (sys *PolicySys) Get(bucket string) (*policy.Policy, error) {
 
 // IsAllowed - checks given policy args is allowed to continue the Rest API.
 func (sys *PolicySys) IsAllowed(args policy.Args) bool {
+	logger.Info("args.BucketName", args.BucketName)
 	p, err := sys.Get(args.BucketName)
 	if err == nil {
 		return p.IsAllowed(args)
